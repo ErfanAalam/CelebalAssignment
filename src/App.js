@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { useSelector } from 'react-redux';
+import getTheme from './theme';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Dashboard from './pages/Dashboard';
+import Table from './pages/Table';
+import Charts from './pages/Charts';
+import Calendar from './pages/Calendar';
+import Kanban from './pages/Kanban';
 
-function App() {
+const App = () => {
+  const theme = useSelector((state) => state.theme.mode);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={getTheme(theme)}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Header />
+        <Sidebar />
+        <main style={{ marginLeft: 240, padding: 16 }}>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/tables" element={<Table />} />
+            <Route path="/charts" element={<Charts />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/kanban" element={<Kanban />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
